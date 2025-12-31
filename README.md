@@ -20,9 +20,13 @@ purpose
 <img width="220" height="296" alt="image" src="https://github.com/user-attachments/assets/5fd8dd56-e16f-4a8a-8cbf-4aae084f04cb" />
 
 services: container service definitions
+
 agent_b, agent_a: service names
+
 build: uses the specified folder as the build context and builds the image using the Dockerfile inside that folder
+
 ports: port forwarding; "8000:8000" maps host port 8000 to container port 8000
+
 depends_on: controls startup order only; it does not guarantee that agent_b is ready to accept requests
 
 
@@ -96,16 +100,23 @@ return { ... }
 - docker cp week1-agent_b-1:/tmp/agent_http.pcap ./agent_http.pcap (terminal 2)
 <img width="260" height="37" alt="image" src="https://github.com/user-attachments/assets/25d551e8-13a9-47d9-9833-57472e692000" />
 
+<img width="1228" height="392" alt="image" src="https://github.com/user-attachments/assets/d68088d0-962d-4dac-a5a4-028e9d73399c" />
+
 
 ## wireshark
 open agent_http.pcap file in wireshark
 
 
 <img width="672" height="212" alt="image" src="https://github.com/user-attachments/assets/f3fade24-83a4-4763-be5b-78aa10731a83" />
+
 - request
 
 <img width="614" height="196" alt="image" src="https://github.com/user-attachments/assets/472b62f6-1cb4-40fc-8fe5-0bf5663a355c" />
+
 - response
+<img width="1228" height="392" alt="image" src="https://github.com/user-attachments/assets/7119df6b-3ae6-463d-ab2b-ec985edd5ada" />
+
+
 
 
 
