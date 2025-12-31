@@ -16,7 +16,7 @@ purpose
 - provide /tool endpoint
 - HTTP response
 
-##docker-compose.yml
+## docker-compose.yml
 <img width="220" height="296" alt="image" src="https://github.com/user-attachments/assets/5fd8dd56-e16f-4a8a-8cbf-4aae084f04cb" />
 
 services: container service definitions
@@ -26,7 +26,7 @@ ports: port forwarding; "8000:8000" maps host port 8000 to container port 8000
 depends_on: controls startup order only; it does not guarantee that agent_b is ready to accept requests
 
 
-##agent_a.py
+## agent_a.py
 <img width="492" height="390" alt="image" src="https://github.com/user-attachments/assets/e706eb76-6342-4cbb-94d0-fdaa023eb695" />
 
 import time : used for sleeping beween retries
@@ -42,7 +42,7 @@ url = "http://agent_b:8000/tool"
 for else : executed only if all retry attempts fail
 
 
-##agent_b.py
+## agent_b.py
 <img width="277" height="334" alt="image" src="https://github.com/user-attachments/assets/e380fa7f-cd9a-4007-aed3-811fc9bdefa0" />
 
 from fastapi import FastAPI
@@ -85,7 +85,10 @@ return { ... }
 
 
 
-command 
+
+
+
+## command 
 - docker compose up --build (terminal 1)
 - docker exec -it week1-agent_b-1 tcpdump -i eth0 -s 0 -w /tmp/agent_http.pcap tcp port 8000 (terminal 2)
 - docker compose restart agent_a (terminal 3)
@@ -94,9 +97,15 @@ command
 <img width="260" height="37" alt="image" src="https://github.com/user-attachments/assets/25d551e8-13a9-47d9-9833-57472e692000" />
 
 
+## wireshark
+open agent_http.pcap file in wireshark
+
 
 <img width="672" height="212" alt="image" src="https://github.com/user-attachments/assets/f3fade24-83a4-4763-be5b-78aa10731a83" />
+- request
 
+<img width="614" height="196" alt="image" src="https://github.com/user-attachments/assets/472b62f6-1cb4-40fc-8fe5-0bf5663a355c" />
+- response
 
 
 
