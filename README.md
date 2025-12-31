@@ -100,21 +100,21 @@ return { ... }
 - docker cp week1-agent_b-1:/tmp/agent_http.pcap ./agent_http.pcap (terminal 2)
 <img width="260" height="37" alt="image" src="https://github.com/user-attachments/assets/25d551e8-13a9-47d9-9833-57472e692000" />
 
-<img width="1228" height="392" alt="image" src="https://github.com/user-attachments/assets/d68088d0-962d-4dac-a5a4-028e9d73399c" />
+JSON log
+<img width="1152" height="188" alt="image" src="https://github.com/user-attachments/assets/136fcd9b-046c-4ce1-8fbd-a59222d77c65" />
 
 
 ## wireshark
 open agent_http.pcap file in wireshark
 
-
+- request
 <img width="672" height="212" alt="image" src="https://github.com/user-attachments/assets/f3fade24-83a4-4763-be5b-78aa10731a83" />
 
-- request
-
-<img width="614" height="196" alt="image" src="https://github.com/user-attachments/assets/472b62f6-1cb4-40fc-8fe5-0bf5663a355c" />
 
 - response
-<img width="1228" height="392" alt="image" src="https://github.com/user-attachments/assets/7119df6b-3ae6-463d-ab2b-ec985edd5ada" />
+<img width="614" height="196" alt="image" src="https://github.com/user-attachments/assets/472b62f6-1cb4-40fc-8fe5-0bf5663a355c" />
+
+
 
 
 
