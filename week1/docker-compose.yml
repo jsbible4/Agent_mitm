@@ -1,0 +1,11 @@
+version: "3"
+services:
+  agent_b:
+    build: ./agent_b
+    ports:
+      - "8000:8000"
+
+  agent_a:
+    build: ./agent_a
+    depends_on:
+      - agent_b
