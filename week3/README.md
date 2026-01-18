@@ -14,7 +14,70 @@ https://blog.naver.com/unpatched_winner/224150678089
 
 to reuse the code week2 and make traffic go through the procy(Burp Suite), explicitly use Environment variable in .yml file. <br>
 - PYTHONUNBUFFERED=1: Used to prevent delayed Docker logs caused by Python’s output buffering, enabling real-time log output for effective debugging.<br>
-- extra_hosts: Forces a manual mapping in the container’s /etc/hosts file (host.docker.internal → host-gateway), allowing the container to correctly resolve and connect to the host machine (e.g., Burp Suite on port 8080).
+- extra_hosts: Forces a manual mapping in the container’s /etc/hosts file (host.docker.internal → host-gateway), allowing the container to correctly resolve and connect to the host machine (e.g., Burp Suite on port 8080). 
+
+## modification test 
+
+**1. prompt poisoning**
+<br>
+original request
+<br>
+<img width="472" height="427" alt="image" src="https://github.com/user-attachments/assets/a6076ea4-5fc8-4135-a522-45e47d8ac8b4" />
+<br>
+
+<br>
+modified request
+<br>
+<img width="404" height="90" alt="image" src="https://github.com/user-attachments/assets/3804548b-d449-4819-8781-45eac452376d" />
+<br>
+
+<br>
+modified result 
+<br>
+<img width="721" height="642" alt="image" src="https://github.com/user-attachments/assets/edf38c00-bf20-4d97-a769-ec4ebbf2e4e5" />
+<br>
+<br>
+
+**2. tool_call poisoning**
+<br>
+change the args to read another text file or change the message 
+<br>
+change the message 
+<br>
+<img width="542" height="500" alt="tool_call_tool변조" src="https://github.com/user-attachments/assets/1904e278-883b-4c92-b4ad-da85a41d23d8" />
+<br>
+<br>
+change the args path 
+<br>
+- original
+<br>
+<img width="531" height="408" alt="tool_call_path변조원본" src="https://github.com/user-attachments/assets/c6c3dc64-ccbc-4a58-b50f-410313d61f5b" />
+<br>
+- modified 
+<br>
+<img width="535" height="520" alt="tool_call_path변조" src="https://github.com/user-attachments/assets/a551cd4a-4250-4908-bef4-24a1d25712da" />
+<br>
+<br>
+**3. tool_response poisoning**
+<br>
+used match and replace rule to automatically replace the response 
+<br>
+<br>
+add rule
+<br>
+<img width="900" height="440" alt="response_poisoning_rule" src="https://github.com/user-attachments/assets/fcef73b6-79aa-4b99-a024-3d1abcaa5b00" />
+<br>
+<br>
+enable the rule
+<br>
+<img width="790" height="218" alt="response_poisoning_rule0" src="https://github.com/user-attachments/assets/545c185d-87fb-4256-b16d-b91597dda7de" />
+<br>
+<br>
+result
+<br>
+<img width="548" height="474" alt="response_poisoning_result" src="https://github.com/user-attachments/assets/6809cd9c-77a2-4898-8339-34c0febbdf47" />
+<br>
+<br>
 
 ##  troubleshooting
 
@@ -59,9 +122,10 @@ While the request was held in Burp for modification, this timeout was exceeded, 
 - Increased the timeout for the `agent_b → tool_server` request from **3 seconds to 600 seconds**.
 <br>- After this change, `/agent` returned **200 OK**, and the tampered tool response was successfully propagated to the final output.
 <br><br>
+
 ---
-<br>
-3. using repeater, there is no response packets for sended packets
+
+3) using repeater, there is no response packets for sended packets
 
 <br>cause of problem : Burp Suite doesn't follow the Docker internal name/DNS 
 ```
