@@ -21,15 +21,20 @@ to reuse the code week2 and make traffic go through the procy(Burp Suite), expli
 1) Duplicate packets were repeatedly sent
 
 <br>Symptom<br>
-Multiple identical packets (same `trace_id`) appeared in Burp, even though I intended to intercept and modify the request only once.<br>
+Multiple identical packets (same `trace_id`) appeared in Burp, even though I intended to intercept and modify the request only once.
 <br>
-**Root Cause**   <br>
+<br>
+**Root Cause**
+<br>
+<img width="503" height="176" alt="image" src="https://github.com/user-attachments/assets/c6cb6658-ed13-4e16-8c0a-66390ec91470" />
+<br>
 `agent_a` was configured to retry up to 30 times, and the timeout was too short.  <br>
 When Burp Intercept was ON, the request was held before forwarding. During this time, the client hit the timeout and retried the same request, causing multiple packets to be sent.<br>
 <img width="716" height="605" alt="image" src="https://github.com/user-attachments/assets/5d820707-6e92-4b0d-9dbb-850a074952ee" />
 
 <br>
-<br>** Resolution**
+<br>
+**Resolution**
 <br>
 - Removed the retry loop so the request is sent only once.<br>
 - Increased the timeout to a sufficiently long value (**600 seconds**) to allow enough time for interception and modification before forwarding.
@@ -41,7 +46,7 @@ When Burp Intercept was ON, the request was held before forwarding. During this 
 <br>Symptom<br>
 After turning Intercept ON and modifying the `tool_call` arguments (e.g., the file path), the final `/agent` response returned **500 Internal Server Error** instead of a normal result.
 <br><br>
-** Root Cause ** <br>
+**Root Cause** <br>
 <img width="688" height="87" alt="image" src="https://github.com/user-attachments/assets/b1550ef6-59dd-4d7b-b608-814b49d0c9ab" />
 <br>
 Docker container logs showed that the request from `agent_b` to `tool_server` used a **3-second timeout**.  <br>
@@ -53,8 +58,9 @@ While the request was held in Burp for modification, this timeout was exceeded, 
 <br>
 - Increased the timeout for the `agent_b → tool_server` request from **3 seconds to 600 seconds**.
 <br>- After this change, `/agent` returned **200 OK**, and the tampered tool response was successfully propagated to the final output.
-
-
+<br><br>
+---
+<br>
 3. using repeater, there is no response packets for sended packets
 
 <br>cause of problem : Burp Suite doesn't follow the Docker internal name/DNS 
