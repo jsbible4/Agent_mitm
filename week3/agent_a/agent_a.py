@@ -1,5 +1,4 @@
 import os
-import time
 import json
 import uuid
 import requests
@@ -7,7 +6,6 @@ import requests
 AGENT_B_URL = os.getenv("AGENT_B_URL", "http://host.docker.internal:8001/agent")
 PROMPT = os.getenv("PROMPT", "read a file")
 
-# Burp Proxy 설정
 PROXIES = {
     "http": os.getenv("HTTP_PROXY"),
     "https": os.getenv("HTTPS_PROXY"),
@@ -15,8 +13,6 @@ PROXIES = {
 
 def main():
     trace_id = str(uuid.uuid4())
-
-    # 1) "prompt" 단계가 그대로 네트워크에 실리도록 JSON에 담아 전송
     payload = {
         "trace_id": trace_id,
         "stage": "prompt",
@@ -24,20 +20,22 @@ def main():
     }
 
     print(f"[Agent A] Using proxy: {PROXIES}")
+    #input("Press Enter to send ONE request (turn Intercept ON first)...")
 
-    # Agent B 준비 대기(week1 스타일로 재시도)
-    for i in range(30):
-        try:
-            r = requests.post(AGENT_B_URL, json=payload, timeout=2, proxies=PROXIES)
-            r.raise_for_status()
-            break
-        except Exception as e:
-            print(f"[{i+1}/30] agent_b 준비 안 됨… 재시도 ({e})")
-            time.sleep(1)
-    else:
-        raise RuntimeError("agent_b가 끝내 준비되지 않았음")
+    # Intercept로 오래 잡고 있어도 안 죽게 timeout을 크게
+    r = requests.post(
+        AGENT_B_URL,
+        json=payload,
+        timeout=600,      # 10분 (원하면 더)
+        proxies=PROXIES
+    )
 
-    # 2) Agent B가 반환한 "tool-call / response"를 그대로 출력
+    # 실패해도 이유를 눈으로 보기 좋게
+    print("status:", r.status_code, "ctype:", r.headers.get("Content-Type"))
+    print("body(head):", r.text[:300])
+
+    r.raise_for_status()
+
     resp = r.json()
     print("\n===== Agent A received (from Agent B) =====")
     print(json.dumps(resp, indent=2, ensure_ascii=False))
