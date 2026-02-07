@@ -199,6 +199,8 @@ so the request URL was manually updated to use that address.
 
 <img width="1156" height="810" alt="image" src="https://github.com/user-attachments/assets/3f01ae48-db2f-4195-8bf3-b1074883571a" />
 
+if isn't working, check out hosts file. 
+host.docker.internal could be mapped to different ip address.
 
 
 
